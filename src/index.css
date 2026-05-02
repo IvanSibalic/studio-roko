@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cream: #F5F0E8;
+  --dark: #1A1612;
+  --mid: #2E2923;
+  --gold: #B8965A;
+  --gold-light: #D4AF7A;
+  --text-muted: #7A7060;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  background-color: var(--cream);
+  color: var(--dark);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--dark);
+}
+
+/* Subtle scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--mid);
+  border-radius: 6px;
+  border: 2px solid var(--cream);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--dark);
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12;
+  }
+
+  .eyebrow {
+    @apply text-[11px] sm:text-xs uppercase tracking-eyebrow text-gold font-medium;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-gold px-7 py-3.5
+           text-sm font-medium text-dark transition-all duration-300
+           hover:bg-gold-light hover:-translate-y-0.5 hover:shadow-lg hover:shadow-gold/20
+           focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2
+           focus-visible:ring-offset-dark;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-gold/40
+           px-7 py-3.5 text-sm font-medium text-cream transition-all duration-300
+           hover:border-gold hover:bg-gold/5 hover:-translate-y-0.5
+           focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2
+           focus-visible:ring-offset-dark;
+  }
+
+  .input-field {
+    @apply w-full rounded-md border border-white/10 bg-white/[0.03] px-4 py-3.5
+           text-sm text-cream placeholder:text-muted/70
+           transition-all duration-200
+           focus:border-gold/60 focus:bg-white/[0.05] focus:outline-none
+           focus:ring-1 focus:ring-gold/40;
+  }
+}
+
+/* Frosted glass for navbar */
+.glass {
+  background-color: rgba(245, 240, 232, 0.78);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid rgba(26, 22, 18, 0.06);
+}
+
+/* Section divider helper used between sections */
+.hairline {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(184, 150, 90, 0.35), transparent);
+}
