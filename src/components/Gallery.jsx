@@ -52,7 +52,7 @@ export default function Gallery() {
         <div className="mt-14 sm:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {placeholders.map((src, i) => (
             <motion.div
-              key={i}
+              key={src}
               initial={{ opacity: 0, y: 22 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
