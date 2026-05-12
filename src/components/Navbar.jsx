@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const links = [
+  { href: '#radovi', label: 'Radovi' },
   { href: '#usluge', label: 'Usluge' },
   { href: '#rezervacija', label: 'Rezervacija' },
-  { href: '#kontakt', label: 'Kontakt' },
+  { href: '#lokacija', label: 'Lokacija' },
 ]
 
 export default function Navbar() {

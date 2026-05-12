@@ -15,6 +15,7 @@ export default function App() {
       <main>
         <Hero />
         <Gallery />
+        <div className="hairline" />
         <Services />
         <WhyUs />
         <Reviews />
