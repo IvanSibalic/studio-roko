@@ -10,6 +10,12 @@ const services = [
   { value: 'tretman', label: 'Tretman kose — od 35€' },
 ]
 
+const timeSlots = Array.from({ length: 24 }, (_, i) => {
+  const h = String(Math.floor(i / 2) + 8).padStart(2, '0')
+  const m = i % 2 === 0 ? '00' : '30'
+  return `${h}:${m}`
+}).filter((t) => t <= '19:30')
+
 const contactRows = [
   {
     label: 'Telefon',
@@ -45,7 +51,7 @@ const contactRows = [
   },
 ]
 
-const initialForm = { ime: '', telefon: '', datum: '', usluga: '' }
+const initialForm = { ime: '', telefon: '', datum: '', vrijeme: '', usluga: '' }
 
 export default function Booking() {
   const [form, setForm] = useState(initialForm)
@@ -61,6 +67,7 @@ export default function Booking() {
     if (!form.ime.trim()) e.ime = 'Unesite ime i prezime'
     if (!form.telefon.trim()) e.telefon = 'Unesite broj telefona'
     if (!form.datum) e.datum = 'Odaberite datum'
+    if (!form.vrijeme) e.vrijeme = 'Odaberite vrijeme'
     if (!form.usluga) e.usluga = 'Odaberite uslugu'
     return e
   }
@@ -74,8 +81,8 @@ export default function Booking() {
     }
     const serviceLabel =
       services.find((s) => s.value === form.usluga)?.label ?? form.usluga
-    const text = `Pozdrav, želio bih rezervirati termin.\nIme: ${form.ime}\nUsluga: ${serviceLabel}\nDatum: ${form.datum}`
-    const url = `https://wa.me/385912345678?text=${encodeURIComponent(text)}`
+    const text = `Pozdrav, želio bih rezervirati termin.\nIme: ${form.ime}\nUsluga: ${serviceLabel}\nDatum: ${form.datum}\nVrijeme: ${form.vrijeme}`
+    const url = `https://wa.me/385996696247?text=${encodeURIComponent(text)}`
     window.open(url, '_blank', 'noopener,noreferrer')
     setForm(initialForm)
     setErrors({})
@@ -169,6 +176,24 @@ export default function Booking() {
                       />
                     </Field>
                   </div>
+
+                  <Field label="Željeno vrijeme" error={errors.vrijeme}>
+                    <div className="relative">
+                      <select
+                        value={form.vrijeme}
+                        onChange={update('vrijeme')}
+                        className="input-field appearance-none pr-10"
+                      >
+                        <option value="" className="bg-dark text-cream">Odaberite vrijeme</option>
+                        {timeSlots.map((t) => (
+                          <option key={t} value={t} className="bg-dark text-cream">{t}</option>
+                        ))}
+                      </select>
+                      <svg className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="m6 9 6 6 6-6"/>
+                      </svg>
+                    </div>
+                  </Field>
 
                   <Field label="Usluga" error={errors.usluga}>
                     <div className="relative">
