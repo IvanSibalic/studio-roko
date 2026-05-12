@@ -79,12 +79,12 @@ export default function Footer() {
             <p className="mt-2 text-sm text-cream/60">
               Web izradio Ivan —{" "}
               <a
-                href="https://ivandevelops.com"
+                href="https://ivansibalic.vercel.app"
                 target="_blank"
                 rel="noreferrer"
                 className="text-gold underline-offset-4 hover:underline"
               >
-                ivansibalic.vercel.com
+                ivansibalic.vercel.app
               </a>
             </p>
           </div>
