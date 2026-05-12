@@ -75,8 +75,10 @@ export default function Booking() {
     const serviceLabel =
       services.find((s) => s.value === form.usluga)?.label ?? form.usluga
     const text = `Pozdrav, želio bih rezervirati termin.\nIme: ${form.ime}\nUsluga: ${serviceLabel}\nDatum: ${form.datum}`
-    const url = `https://wa.me/385911234567?text=${encodeURIComponent(text)}`
+    const url = `https://wa.me/385912345678?text=${encodeURIComponent(text)}`
     window.open(url, '_blank', 'noopener,noreferrer')
+    setForm(initialForm)
+    setErrors({})
   }
 
   return (
