@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 const services = [
   { value: 'muski-rez', label: 'Muški rez — od 20€' },
@@ -49,7 +49,6 @@ const initialForm = { ime: '', telefon: '', datum: '', usluga: '' }
 
 export default function Booking() {
   const [form, setForm] = useState(initialForm)
-  const [sent, setSent] = useState(false)
   const [errors, setErrors] = useState({})
 
   const update = (k) => (e) => {
@@ -73,13 +72,11 @@ export default function Booking() {
       setErrors(eMap)
       return
     }
-    setSent(true)
-  }
-
-  const reset = () => {
-    setForm(initialForm)
-    setSent(false)
-    setErrors({})
+    const serviceLabel =
+      services.find((s) => s.value === form.usluga)?.label ?? form.usluga
+    const text = `Pozdrav, želio bih rezervirati termin.\nIme: ${form.ime}\nUsluga: ${serviceLabel}\nDatum: ${form.datum}`
+    const url = `https://wa.me/385911234567?text=${encodeURIComponent(text)}`
+    window.open(url, '_blank', 'noopener,noreferrer')
   }
 
   return (
@@ -128,113 +125,82 @@ export default function Booking() {
               <span className="absolute bottom-4 left-4 h-3 w-3 border-l border-b border-gold/40" />
               <span className="absolute bottom-4 right-4 h-3 w-3 border-r border-b border-gold/40" />
 
-              <AnimatePresence mode="wait">
-                {!sent ? (
-                  <motion.form
-                    key="form"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    onSubmit={submit}
-                    noValidate
-                  >
-                    <div className="text-[10px] uppercase tracking-eyebrow text-gold">Forma za rezervaciju</div>
-                    <h3 className="mt-2 font-serif text-2xl sm:text-3xl">Pošaljite upit</h3>
+              <motion.form
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                onSubmit={submit}
+                noValidate
+              >
+                <div className="text-[10px] uppercase tracking-eyebrow text-gold">Forma za rezervaciju</div>
+                <h3 className="mt-2 font-serif text-2xl sm:text-3xl">Pošaljite upit</h3>
 
-                    <div className="mt-8 space-y-5">
-                      <Field label="Ime i prezime" error={errors.ime}>
-                        <input
-                          type="text"
-                          autoComplete="name"
-                          value={form.ime}
-                          onChange={update('ime')}
-                          placeholder="Ana Anić"
-                          className="input-field"
-                        />
-                      </Field>
+                <div className="mt-8 space-y-5">
+                  <Field label="Ime i prezime" error={errors.ime}>
+                    <input
+                      type="text"
+                      autoComplete="name"
+                      value={form.ime}
+                      onChange={update('ime')}
+                      placeholder="Ana Anić"
+                      className="input-field"
+                    />
+                  </Field>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <Field label="Telefon" error={errors.telefon}>
-                          <input
-                            type="tel"
-                            autoComplete="tel"
-                            value={form.telefon}
-                            onChange={update('telefon')}
-                            placeholder="+385 91 234 5678"
-                            className="input-field"
-                          />
-                        </Field>
-                        <Field label="Datum" error={errors.datum}>
-                          <input
-                            type="date"
-                            value={form.datum}
-                            onChange={update('datum')}
-                            className="input-field"
-                          />
-                        </Field>
-                      </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <Field label="Telefon" error={errors.telefon}>
+                      <input
+                        type="tel"
+                        autoComplete="tel"
+                        value={form.telefon}
+                        onChange={update('telefon')}
+                        placeholder="+385 91 234 5678"
+                        className="input-field"
+                      />
+                    </Field>
+                    <Field label="Datum" error={errors.datum}>
+                      <input
+                        type="date"
+                        value={form.datum}
+                        onChange={update('datum')}
+                        className="input-field"
+                      />
+                    </Field>
+                  </div>
 
-                      <Field label="Usluga" error={errors.usluga}>
-                        <div className="relative">
-                          <select
-                            value={form.usluga}
-                            onChange={update('usluga')}
-                            className="input-field appearance-none pr-10"
-                          >
-                            <option value="" className="bg-dark text-cream">Odaberite uslugu</option>
-                            {services.map((s) => (
-                              <option key={s.value} value={s.value} className="bg-dark text-cream">
-                                {s.label}
-                              </option>
-                            ))}
-                          </select>
-                          <svg className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="m6 9 6 6 6-6"/>
-                          </svg>
-                        </div>
-                      </Field>
-                    </div>
-
-                    <button
-                      type="submit"
-                      className="mt-8 w-full inline-flex items-center justify-center gap-2 rounded-full bg-gold px-6 py-4 text-sm font-medium text-dark transition-all duration-300 hover:bg-gold-light hover:-translate-y-0.5 hover:shadow-lg hover:shadow-gold/20"
-                    >
-                      Pošalji upit za termin
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                    </button>
-
-                    <p className="mt-4 text-xs text-muted text-center">
-                      Slanjem upita prihvaćate da vas kontaktiramo radi potvrde termina.
-                    </p>
-                  </motion.form>
-                ) : (
-                  <motion.div
-                    key="success"
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                    className="py-10 text-center"
-                  >
-                    <div className="mx-auto inline-flex h-16 w-16 items-center justify-center rounded-full border border-gold/40 text-gold">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-7 w-7">
-                        <path d="M20 6 9 17l-5-5" />
+                  <Field label="Usluga" error={errors.usluga}>
+                    <div className="relative">
+                      <select
+                        value={form.usluga}
+                        onChange={update('usluga')}
+                        className="input-field appearance-none pr-10"
+                      >
+                        <option value="" className="bg-dark text-cream">Odaberite uslugu</option>
+                        {services.map((s) => (
+                          <option key={s.value} value={s.value} className="bg-dark text-cream">
+                            {s.label}
+                          </option>
+                        ))}
+                      </select>
+                      <svg className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="m6 9 6 6 6-6"/>
                       </svg>
                     </div>
-                    <h3 className="mt-6 font-serif text-2xl sm:text-3xl">Hvala, {form.ime.split(' ')[0] || 'klijente'}!</h3>
-                    <p className="mt-3 text-cream/70 max-w-sm mx-auto">
-                      Vaš upit je zaprimljen. Javljamo se na <span className="text-gold">{form.telefon}</span> u roku od 24 sata radi potvrde termina.
-                    </p>
-                    <button
-                      onClick={reset}
-                      className="mt-8 inline-flex items-center gap-2 rounded-full border border-gold/40 px-5 py-2.5 text-sm text-cream transition hover:border-gold hover:bg-gold/5"
-                    >
-                      Pošalji novi upit
-                    </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                  </Field>
+                </div>
+
+                <button
+                  type="submit"
+                  className="mt-8 w-full inline-flex items-center justify-center gap-2 rounded-full bg-gold px-6 py-4 text-sm font-medium text-dark transition-all duration-300 hover:bg-gold-light hover:-translate-y-0.5 hover:shadow-lg hover:shadow-gold/20"
+                >
+                  Pošalji upit za termin
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </button>
+
+                <p className="mt-4 text-xs text-muted text-center">
+                  Slanjem upita prihvaćate da vas kontaktiramo radi potvrde termina.
+                </p>
+              </motion.form>
             </div>
           </motion.div>
         </div>
