@@ -21,7 +21,7 @@ const reviews = [
 export default function Reviews() {
   return (
     <section id="recenzije" className="relative bg-dark text-cream overflow-hidden">
-      <div aria-hidden className="pointer-events-none absolute -top-40 left-0 h-[420px] w-[420px] rounded-full bg-gold/[0.05] blur-3xl" />
+      <div aria-hidden="true" className="pointer-events-none absolute -top-40 left-0 h-[420px] w-[420px] rounded-full bg-gold/[0.05] blur-3xl" />
 
       <div className="container-x relative py-24 sm:py-28 lg:py-32">
         {/* Header */}

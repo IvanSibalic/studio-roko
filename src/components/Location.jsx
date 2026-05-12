@@ -52,14 +52,14 @@ function InfoRow({ icon, label, value, href }) {
       {inner}
     </a>
   ) : (
-    <div className="flex items-center gap-4">{inner}</div>
+    <div className="group flex items-center gap-4">{inner}</div>
   )
 }
 
 export default function Location() {
   return (
     <section id="lokacija" className="relative bg-dark text-cream overflow-hidden">
-      <div aria-hidden className="pointer-events-none absolute -bottom-40 right-0 h-[420px] w-[420px] rounded-full bg-gold/[0.05] blur-3xl" />
+      <div aria-hidden="true" className="pointer-events-none absolute -bottom-40 right-0 h-[420px] w-[420px] rounded-full bg-gold/[0.05] blur-3xl" />
 
       <div className="container-x relative py-24 sm:py-28 lg:py-32">
         {/* Header */}
@@ -118,7 +118,7 @@ export default function Location() {
                 href="https://maps.google.com/?q=Kapucinska+12+Osijek"
                 target="_blank"
                 rel="noreferrer"
-                className="btn-outline inline-flex"
+                className="btn-outline"
               >
                 Otvori u Google Mapsu
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
